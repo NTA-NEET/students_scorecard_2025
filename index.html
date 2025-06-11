@@ -8,6 +8,31 @@
       margin: 0;
       padding: 0;
       background-color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      padding: 40px 0 8px;
+    }
+
+    .header button {
+      background-color: #337ab7;
+      color: white;
+      border: none;
+      font-size: 14px;
+      padding: 10px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .header-line {
+      border: none;
+      border-top: 2px dashed blue;
+      margin: 0 auto 10px;
+      width: 100%;
     }
 
     .image-container {
@@ -21,12 +46,73 @@
       margin: 0;
       padding: 0;
     }
+
+    .error404 {
+      text-align: center;
+      padding: 50px;
+      font-size: 24px;
+      color: red;
+      display: none;
+    }
   </style>
 </head>
 <body>
 
-  <div class="image-container">
-    <img src="Screenshot 2025-06-11 125656-pica 1.png" alt="Screenshot 1" class="screenshot">
+  <!-- Error Message -->
+  <div id="error404" class="error404">
+    <h1>404 - Page Not Found</h1>
+    <p>The page you're trying to access is no longer available.</p>
+  </div>
+
+  <!-- Main Content -->
+  <div id="mainContent">
+    <div class="header">
+      <button onclick="downloadPDF()">Download Score Card</button>
+      <button onclick="goToHome()">Close</button>
+    </div>
+    <hr class="header-line">
+
+    <div class="image-container">
+      <img src="Screenshot 2025-06-11 125656-pica.png" alt="Screenshot 1" class="screenshot">
+    </div>
+  </div>
+
+  <script>
+    const now = new Date().getTime();
+    const visitTime = sessionStorage.getItem("visitTime");
+    const hasLeft = sessionStorage.getItem("hasLeft");
+    const twoMinutes = 2 * 60 * 1000;
+
+    // Decide what to show
+    if (hasLeft === "true") {
+      showError();
+    } else if (visitTime && now - parseInt(visitTime) > twoMinutes) {
+      showError();
+    } else {
+      if (!visitTime) {
+        sessionStorage.setItem("visitTime", now);
+      }
+    }
+
+    function downloadPDF() {
+      const link = document.createElement('a');
+      link.href = 'scorecard.pdf'; // Replace with your actual file
+      link.download = 'scorecard.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function goToHome() {
+      sessionStorage.setItem("hasLeft", "true");
+      window.location.href = 'https://nta-neet.github.io/neet.nta.nic.in/';
+    }
+
+    function showError() {
+      document.getElementById("mainContent").style.display = "none";
+      document.getElementById("error404").style.display = "block";
+    }
+  </script>
 
 </body>
 </html>

@@ -49,19 +49,21 @@
 
     .error404 {
       text-align: center;
-      padding: 50px;
-      font-size: 24px;
-      color: red;
+      padding: 0px;
       display: none;
+    }
+
+    .error404 img {
+      max-width: 100%;
+      height: auto;
     }
   </style>
 </head>
 <body>
 
-  <!-- Error Message -->
+  <!-- Error Image -->
   <div id="error404" class="error404">
-    <h1>404 - Page Not Found</h1>
-    <p>The page you're trying to access is no longer available.</p>
+    <img src="Session expired.png" alt="404 Error">
   </div>
 
   <!-- Main Content -->
@@ -73,7 +75,7 @@
     <hr class="header-line">
 
     <div class="image-container">
-      <img src="Screenshot 2025-06-11 125656-pica.png" alt="Screenshot 1" class="screenshot">
+      <img src="Scorecard.png" alt="Screenshot 1" class="screenshot">
     </div>
   </div>
 
@@ -83,7 +85,6 @@
     const hasLeft = sessionStorage.getItem("hasLeft");
     const twoMinutes = 2 * 60 * 1000;
 
-    // Decide what to show
     if (hasLeft === "true") {
       showError();
     } else if (visitTime && now - parseInt(visitTime) > twoMinutes) {
@@ -96,7 +97,7 @@
 
     function downloadPDF() {
       const link = document.createElement('a');
-      link.href = 'scorecard.pdf'; // Replace with your actual file
+      link.href = 'scorecard.pdf'; // your PDF file path
       link.download = 'scorecard.pdf';
       document.body.appendChild(link);
       link.click();
